@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans 
+                        http://www.springframework.org/schema/beans/spring-beans.xsd
+                        http://camel.apache.org/schema/spring 
+                        http://camel.apache.org/schema/spring/camel-spring.xsd
+                        http://activemq.apache.org/schema/core 
+                        http://activemq.apache.org/schema/core/activemq-core.xsd">
+  
+  
+  	<bean id="websphereConnectionFactory" class="com.ibm.mq.jms.MQConnectionFactory">
+	    <property name="transportType" value="1" />
+	    <property name="hostName" value="mqtstcor" />
+	    <property name="channel" value="SRVMQTSTCOR" />
+	    <property name="port" value="1416" />
+	    <property name="queueManager" value="" /> 
+	</bean>
+
+	<bean id="websphereConfig" class="org.apache.camel.component.jms.JmsConfiguration">
+	    <property name="connectionFactory" ref="websphereConnectionFactory" />
+	    <property name="concurrentConsumers" value="10" />
+	</bean>
+	
+	<bean id="websphere" class="org.apache.camel.component.jms.JmsComponent">
+	    <property name="configuration" ref="websphereConfig" />
+	</bean> 
+
+</beans>

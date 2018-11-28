@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:amq="http://activemq.apache.org/schema/core"
+	xmlns:camel="http://camel.apache.org/schema/spring"
+	xmlns:cxf="http://camel.apache.org/schema/cxf"
+	xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans     http://www.springframework.org/schema/beans/spring-beans.xsd
+	     http://cxf.apache.org/jaxrs             http://cxf.apache.org/schemas/jaxrs.xsd
+	     http://camel.apache.org/schema/cxf      http://camel.apache.org/schema/cxf/camel-cxf.xsd                     
+	     http://camel.apache.org/schema/spring   http://camel.apache.org/schema/spring/camel-spring.xsd                      
+	     http://activemq.apache.org/schema/core  http://activemq.apache.org/schema/core/activemq-core.xsd">
+	
+	<import resource="mq-context.xml" />
+
+	<bean class="br.com.conecta.poc.processor.ProducerWMQProcessor" id="producerWMQProcessor" />
+
+	<camelContext id="camelContext-webSphereMQ"
+		xmlns="http://camel.apache.org/schema/spring">
+
+		<route autoStartup="true" id="routeWebsphereMqProducer">
+			<from id="_from1" uri="timer:foo?period=5000" />
+			<to id="_to1" uri="producerWMQProcessor" />
+			<log id="_log1" message="Mensagem enviada para o WebSphereMQ" />
+		</route>
+
+	</camelContext>
+	
+</beans>
